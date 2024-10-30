@@ -13,3 +13,6 @@ function setProgress(percentage)
         percentage = percentage
     })
 end
+
+exports("startUI", startUI)
+exports("setProgress", setProgress)
