@@ -8,7 +8,7 @@
     <style>
         /* Style de la barre de progression */
         #mina {
-            display: block;
+            display: none;
             overflow: hidden;
             position: fixed;
             bottom: 5%;
@@ -24,7 +24,6 @@
             height: 30px;
             border-radius: 15px;
             overflow: hidden;
-            /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); */
             position: relative;
         }
 
@@ -63,39 +62,44 @@
         document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('message', (event) => {
                 const item = event.data;
-                if (item && item.type === "ui") {
-                    const mina = document.getElementById("mina");
-                    const progressBar = document.getElementById("pbar_innerdiv");
-                    const progressText = document.getElementById("pbar_innertext");
+                const mina = document.getElementById("mina");
+                const progressBar = document.getElementById("pbar_innerdiv");
+                const progressText = document.getElementById("pbar_innertext");
 
-                    if (item.display) {
-                        mina.style.display = 'block';
-                        console.log("Starting progress...");
+                if (item) {
+                    if (item.type === "ui") {
+                        if (item.display) {
+                            mina.style.display = 'block';
+                            console.log("Starting progress...");
 
-                        let startTime = new Date();
-                        const maxTime = item.time;
-                        const timeoutVal = Math.floor(maxTime / 100);
-                        progressText.textContent = item.text;
+                            let startTime = new Date();
+                            const maxTime = item.time;
+                            const timeoutVal = Math.floor(maxTime / 100);
+                            progressText.textContent = item.text;
 
-                        const animateUpdate = () => {
-                            const now = new Date();
-                            const elapsed = now - startTime;
-                            const percentage = Math.min(100, Math.round((elapsed / maxTime) * 100));
-                            
-                            progressBar.style.width = `${percentage}%`;
-                            progressText.textContent = `${percentage}%`;
-                            
-                            if (percentage < 100) {
-                                setTimeout(animateUpdate, timeoutVal);
-                            } else {
-                                mina.style.display = 'block';
-                            }
-                        };
+                            const animateUpdate = () => {
+                                const now = new Date();
+                                const elapsed = now - startTime;
+                                const percentage = Math.min(100, Math.round((elapsed / maxTime) * 100));
+                                
+                                progressBar.style.width = `${percentage}%`;
+                                progressText.textContent = `${percentage}%`;
+                                
+                                if (percentage < 100) {
+                                    setTimeout(animateUpdate, timeoutVal);
+                                } else {
+                                    mina.style.display = 'none';
+                                }
+                            };
 
-                        animateUpdate();
-
-                    } else {
-                        mina.style.display = 'block';
+                            animateUpdate();
+                        } else {
+                            mina.style.display = 'none';
+                        }
+                    } else if (item.type === "progress") {
+                        const percentage = Math.min(100, Math.max(0, item.percentage));
+                        progressBar.style.width = `${percentage}%`;
+                        progressText.textContent = `${percentage}%`;
                     }
                 }
             });
