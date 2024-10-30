@@ -7,7 +7,7 @@ This script provides a visual progress bar in FiveM. You can configure the durat
 - **Version**: 2.0.0
 - **Game**: GTA V
 - **Author**: Cruck Store
-- **Credit** EthanPeacock [CFX Forum Link](https://forum.cfx.re/t/release-progress-bars-1-0-standalone/526287/8)
+- **Credit**: EthanPeacock [CFX Forum Link](https://forum.cfx.re/t/release-progress-bars-1-0-standalone/526287/8)
 
 ## Installation
 
